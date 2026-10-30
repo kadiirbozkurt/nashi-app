@@ -32,6 +32,16 @@ internal static class FolderArchiveChecks
         var refused=false;try{await FolderArchive.CreateAsync([folder],"rar",Path.Combine(folder,"İç"),null,default);}catch(InvalidDataException){refused=true;}
         check(refused,"An archive was written inside the folder it packs");
     }
+    public static void Slots(Action<bool,string> check)
+    {
+        (int X,int Y) source=(100,100),cell=(80,90);bool Anywhere((int X,int Y) p)=>true;
+        check(DesktopSlots.Next(source,cell,[source],Anywhere)==(180,100),"A new icon did not land right of its source");
+        check(DesktopSlots.Next(source,cell,[source,(180,100)],Anywhere)==(100,190),"A taken right slot did not fall back to below");
+        check(DesktopSlots.Next(source,cell,[source,(170,120)],Anywhere)==(20,100),"An icon overlapping two cells was ignored");
+        check(DesktopSlots.Next(source,cell,[source],p=>p.X<=100)==(100,190),"A slot off the monitor was used");
+        check(DesktopSlots.Next(source,cell,[source,(180,100),(100,190),(20,100),(100,10)],Anywhere)==(180,190),"A full ring did not move to a corner");
+        check(DesktopSlots.Next(source,cell,[source],p=>false) is null,"No free slot still returned a position");
+    }
     private static void Inside(Action<bool,string> check,string archive,string output,string label)
     {
         var unpacked=Path.Combine(output,"Unpacked "+label);Directory.CreateDirectory(unpacked);ArchiveEngine.Extract(archive,unpacked);
