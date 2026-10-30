@@ -240,6 +240,7 @@ public sealed partial class MainWindow:Window
             var requestedFormat=choice.Id.StartsWith("convert:",StringComparison.Ordinal)?choice.Id[8..]:null;if(requestedFormat is not null)choice=new("convert","Convert to "+requestedFormat.ToUpperInvariant(),"↗");
             choice=choice with{Id=choice.Id switch{"cropImage"=>"crop","annotateImage"=>"annotate","mergePDF"=>"mergePDFs",_=>choice.Id}};
             SetBusy(true);var imageSelection=Images;var mediaSelection=Video||Audio;var selected=files.ToArray();MediaInfo? info=null;BitmapSource? preview=null;var input=selected[0];
+            if(requestedFormat is not null&&selected.Any(FolderArchive.IsFolder)){SetBusy(false);await RunAsync((destination,p,t)=>FolderArchive.CreateAsync(selected,requestedFormat,destination,p,t),choice.Title);return;}
             if(choice.Id=="removeMetadata"){SetBusy(false);await EditMetadataAsync(selected);return;}
             if(choice.Id=="readQRCode"){SetBusy(false);await ReadQrAsync(selected);return;}
             if(!imageSelection&&!mediaSelection&&choice.Id is not ("extractArchive" or "unzip")){SetBusy(false);await EditDocumentAsync(choice,selected,requestedFormat);return;}

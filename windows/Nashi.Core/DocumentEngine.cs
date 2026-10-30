@@ -60,10 +60,10 @@ public static partial class DocumentEngine
         if(!fields&&!widgets&&!attachments)return;
         throw new InvalidDataException(tool=="removeMetadata"?"This PDF has form fields or attachments that metadata cleanup cannot keep. No copy was exported.":"This PDF has form fields or attachments that merging, splitting or reordering pages cannot keep. No copy was exported.");
     }
-    public static string Zip(IReadOnlyList<string> inputs,string destination,IProgress<OperationProgress>? progress=null,CancellationToken token=default)
+    public static string Zip(IReadOnlyList<string> inputs,string destination,IProgress<OperationProgress>? progress=null,CancellationToken token=default,string archiveName="Archive")
     {
         if(inputs.Count==0)throw new ArgumentException("Choose files to zip.");
-        using var tx=new ExportTransaction(destination);var output=Path.Combine(tx.StagingDirectory,"Archive.zip");
+        using var tx=new ExportTransaction(destination);var output=Path.Combine(tx.StagingDirectory,archiveName+".zip");
         var usedNames=new HashSet<string>(StringComparer.OrdinalIgnoreCase);var entries=0;long total=0;
         using(var zip=ZipFile.Open(output,ZipArchiveMode.Create))
         {

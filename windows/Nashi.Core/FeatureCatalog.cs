@@ -14,7 +14,7 @@ public static class FeatureCatalog
     public static bool IsVideo(string path)=>new[]{"mp4","mov","mkv","webm","avi","wmv","m4v","mts","m2ts","gif"}.Contains(Extension(path));
     public static bool IsAudio(string path)=>new[]{"mp3","m4a","wav","flac","ogg","opus","aiff","wma","aac"}.Contains(Extension(path));
     public static bool IsArchive(string path)=>new[]{"zip","tar","gz","rar"}.Contains(Extension(path));
-    public static string[] Formats(IReadOnlyList<string> inputs)=>Intersect(inputs,Data.ConversionMatrix);
+    public static string[] Formats(IReadOnlyList<string> inputs)=>inputs.Any(FolderArchive.IsFolder)?FolderArchive.Formats():Intersect(inputs,Data.ConversionMatrix);
     public static string[] Tools(IReadOnlyList<string> inputs)
     {
         var result=Intersect(inputs,inputs.Count>1?Data.MultipleTools:Data.SingleTools).ToList();
