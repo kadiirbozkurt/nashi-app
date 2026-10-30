@@ -172,6 +172,26 @@
       "gif",
       "mp3"
     ],
+    "mts": [
+      "mp4",
+      "mov",
+      "mkv",
+      "webm",
+      "avi",
+      "wmv",
+      "gif",
+      "mp3"
+    ],
+    "m2ts": [
+      "mp4",
+      "mov",
+      "mkv",
+      "webm",
+      "avi",
+      "wmv",
+      "gif",
+      "mp3"
+    ],
     "webm": [
       "mp4",
       "mov",
@@ -491,6 +511,28 @@
       "splitVideo",
       "redactVideo"
     ],
+    "mts": [
+      "compress",
+      "removeMetadata",
+      "muteVideo",
+      "trimVideo",
+      "cropVideo",
+      "changeVideoSpeed",
+      "videoSnapshots",
+      "splitVideo",
+      "redactVideo"
+    ],
+    "m2ts": [
+      "compress",
+      "removeMetadata",
+      "muteVideo",
+      "trimVideo",
+      "cropVideo",
+      "changeVideoSpeed",
+      "videoSnapshots",
+      "splitVideo",
+      "redactVideo"
+    ],
     "webm": [],
     "avi": [],
     "wmv": [],
@@ -613,6 +655,18 @@
       "joinVideos"
     ],
     "mkv": [
+      "compress",
+      "removeMetadata",
+      "muteVideo",
+      "joinVideos"
+    ],
+    "mts": [
+      "compress",
+      "removeMetadata",
+      "muteVideo",
+      "joinVideos"
+    ],
+    "m2ts": [
       "compress",
       "removeMetadata",
       "muteVideo",

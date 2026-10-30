@@ -6,7 +6,7 @@ internal static class ParityChecks
 {
     public static void Run(Action<bool,string> check,string root)
     {
-        check(FeatureCatalog.Conversions.Count==46&&FeatureCatalog.ToolNames.Count==27,"Mac/Windows catalog count diverged");
+        check(FeatureCatalog.Conversions.Count==48&&FeatureCatalog.ToolNames.Count==27,"Mac/Windows catalog count diverged");
         check(FeatureCatalog.Formats(["a.htm","b.html"]).SequenceEqual(new[]{"pdf"})&&FeatureCatalog.Tools(["a.html"]).Length==0,"HTML inputs lost their PDF route");
         check(FeatureCatalog.Formats(["a.jpeg","b.png"]).Contains("webp"),"Mixed image conversion intersection failed");
         check(!FeatureCatalog.Formats(["a.png","b.mp4"]).Any(),"Unrelated inputs offered an invalid format");

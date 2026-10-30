@@ -19,6 +19,7 @@ try
     ToolSetupChecks.Run(Check,root);
     var parityRoot=Path.Combine(root,"Parity");Directory.CreateDirectory(parityRoot);try{ParityChecks.Run(Check,parityRoot);}finally{Directory.Delete(parityRoot,true);}
     Check(FeatureCatalog.IsVideo("Clip.m4v")&&FeatureCatalog.IsAudio("Clip.aac"),"Media preview classification differs from Mac aliases");
+    Check(FeatureCatalog.IsVideo("Camera.MTS")&&FeatureCatalog.Formats(["Camera.MTS"]).Contains("mp4")&&FeatureCatalog.Tools(["Camera.m2ts"]).Contains("trimVideo"),"AVCHD camera files lack conversion and video tools");
     foreach(var area in new[]{new WindowFrame(0,24,1511,910),new WindowFrame(-1920,-1030,1920,1006),new WindowFrame(1512,40,1727,1090)})
     {
         var a=WindowPlacement.LeftThird.Frame(area);var b=WindowPlacement.MiddleThird.Frame(area);var c=WindowPlacement.RightThird.Frame(area);

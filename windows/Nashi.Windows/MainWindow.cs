@@ -208,7 +208,7 @@ public sealed partial class MainWindow:Window
     }
     private bool All(string[] extensions)=>files.Count>0&&files.All(p=>extensions.Contains(Path.GetExtension(p).TrimStart('.').ToLowerInvariant()));
     private bool Images=>files.Count>0&&files.All(FeatureCatalog.IsImage);
-    private bool Video=>All(["mp4","mov","mkv","webm","avi","wmv","m4v","gif"]);
+    private bool Video=>All(["mp4","mov","mkv","webm","avi","wmv","m4v","mts","m2ts","gif"]);
     private bool Audio=>All(["mp3","m4a","wav","flac","ogg","opus","aiff","aif","wma","aac"]);
     private IReadOnlyList<ToolChoice> Choices()
     {
