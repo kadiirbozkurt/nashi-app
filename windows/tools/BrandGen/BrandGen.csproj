@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Bozkurt Çark brand asset generator: renders the app own AppIcon and BrandArt into Nashi.Windows/Brand
+       (app.ico, icon.png, mark.png, mark-active.png). Not part of the app build; run it by hand with the
+       Brand folder as its only argument. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType><TargetFramework>net10.0-windows</TargetFramework><UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable><ImplicitUsings>enable</ImplicitUsings><RootNamespace>Nashi.Windows</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../Nashi.Windows/Brand/BrandArt.cs" Link="Brand/BrandArt.cs" />
+    <Compile Include="../../Nashi.Windows/Brand/AppIcon.cs" Link="Brand/AppIcon.cs" />
+    <Resource Include="../../Nashi.Windows/Brand/logo.png" Link="Assets/logo.png" />
+  </ItemGroup>
+</Project>

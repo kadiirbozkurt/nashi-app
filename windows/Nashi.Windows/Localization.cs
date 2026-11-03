@@ -18,7 +18,9 @@ public sealed class LanguageState:INotifyPropertyChanged
 internal static class L10n
 {
     internal static string Language{get=>LanguageState.Shared.Language;set=>LanguageState.Shared.Language=value;}
-    internal static string Text(string source)=>AppLocalization.Text(source,Language);
+    internal static string Text(string source)=>Brand(AppLocalization.Text(source,Language));
+    // The shared catalog still names the upstream app; this build is Bozkurt Çark everywhere it is shown.
+    internal static string Brand(string text)=>text.Replace("Nashi","Bozkurt Çark",StringComparison.Ordinal);
     internal static string Uppercase(string source)=>AppLocalization.Uppercase(Text(source),Language);
     internal static void Bind(DependencyObject target,DependencyProperty property,string source)=>BindingOperations.SetBinding(target,property,new Binding(nameof(LanguageState.Language)){Source=LanguageState.Shared,Converter=TextConverter.Shared,ConverterParameter=source,Mode=BindingMode.OneWay});
     internal static TextBlock Label(TextBlock text){Bind(text,TextBlock.TextProperty,text.Text);return text;}
@@ -40,13 +42,13 @@ internal static class L10n
     private sealed class TextConverter:IValueConverter
     {
         internal static readonly TextConverter Shared=new();
-        public object Convert(object value,Type type,object parameter,CultureInfo culture)=>AppLocalization.Text((string)parameter,(string)value);
+        public object Convert(object value,Type type,object parameter,CultureInfo culture)=>Brand(AppLocalization.Text((string)parameter,(string)value));
         public object ConvertBack(object value,Type type,object parameter,CultureInfo culture)=>throw new NotSupportedException();
     }
     private sealed class ChoiceConverter:IMultiValueConverter
     {
         internal static readonly ChoiceConverter Shared=new();
-        public object Convert(object[] values,Type type,object parameter,CultureInfo culture)=>values.Length==2&&values[0] is string source&&values[1] is string language?AppLocalization.Text(source,language):values[0];
+        public object Convert(object[] values,Type type,object parameter,CultureInfo culture)=>values.Length==2&&values[0] is string source&&values[1] is string language?Brand(AppLocalization.Text(source,language)):values[0];
         public object[] ConvertBack(object value,Type[] types,object parameter,CultureInfo culture)=>throw new NotSupportedException();
     }
 }

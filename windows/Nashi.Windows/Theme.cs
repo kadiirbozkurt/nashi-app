@@ -9,14 +9,15 @@ namespace Nashi.Windows;
 internal static class Theme
 {
     internal static bool Dark{get;private set;}
-    internal static Brush Primary=>new LinearGradientBrush(Color.FromRgb(227,184,89),Color.FromRgb(245,209,125),0);
+    internal static Brush Primary=>new LinearGradientBrush(Color.FromRgb(0x27,0xC6,0xB4),Color.FromRgb(0x7B,0xE6,0xDA),0);
     internal static Brush Brush(string name)=>(Brush)Application.Current.FindResource(name);
     internal static void Apply(string appearance)
     {
-        Dark=appearance=="dark"||(appearance=="system"&&Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize","AppsUseLightTheme",1) is int value&&value==0);
-        // Frosted-glass palette: surfaces are translucent so the Acrylic backdrop shows
-        // through; GlassPaper tints the backdrop, GlassRim is the bright edge highlight.
-        foreach(var (key,light,dark) in new[]{("Paper","#F9F6ED","#111A14"),("GlassPaper","#A6F9F6ED","#9E101813"),("Ink","#243B2B","#E7EBE6"),("Surface","#B3FFFFFF","#5C24342A"),("Inset","#73FFFFFF","#47101A13"),("Muted","#596650","#A9B5A8"),("Line","#99FFFFFF","#3DFFFFFF"),("GlassRim","#E6FFFFFF","#5CFFFFFF"),("Sage","#B3E0EBD2","#80304A35"),("Sand","#B3F6E7BE","#804A3F27")})
+        // Bozkurt Çark is always the Ergenekon night look, like Bozkurt Pro: the appearance setting no longer changes it.
+        Dark=true;
+        // Ergenekon glass (Bozkurt Pro): translucent white panels over the night scene, turquoise for focus and
+        // selection. Paper stays opaque for popups and windows without the scene.
+        foreach(var (key,light,dark) in new[]{("Paper","#15131D","#15131D"),("Ink","#F5FFFFFF","#F5FFFFFF"),("Surface","#1CFFFFFF","#1CFFFFFF"),("Inset","#14FFFFFF","#14FFFFFF"),("Muted","#9EFFFFFF","#9EFFFFFF"),("Line","#29FFFFFF","#29FFFFFF"),("GlassRim","#52FFFFFF","#52FFFFFF"),("Sage","#5927C6B4","#5927C6B4"),("Sand","#33E2BC74","#33E2BC74"),("Gold","#27C6B4","#27C6B4")})
             Application.Current.Resources[key]=new SolidColorBrush((Color)ColorConverter.ConvertFromString(Dark?dark:light));
         foreach(Window window in Application.Current.Windows)ApplyTitleBar(window);
     }
@@ -39,17 +40,11 @@ internal static class Theme
         var handle=new WindowInteropHelper(window).Handle;if(handle==IntPtr.Zero)return;var dark=Dark?1:0;_ = DwmSetWindowAttribute(handle,20,ref dark,sizeof(int));
         ApplyBackdrop(window,handle);
     }
-    // Windows 11 22H2+ blurs the desktop behind the window (DWMWA_SYSTEMBACKDROP_TYPE,
-    // Acrylic). Layered windows cannot host it, and older systems keep the opaque Paper.
+    // Framed windows show the Bozkurt night scene; layered and frameless windows keep the opaque Paper.
     private static void ApplyBackdrop(Window window,IntPtr handle)
     {
         if(window.AllowsTransparency||window.WindowStyle==WindowStyle.None)return;
-        var acrylic=3;if(DwmSetWindowAttribute(handle,38,ref acrylic,sizeof(int))!=0)return;
-        var margins=new Margins{Left=-1,Right=-1,Top=-1,Bottom=-1};if(DwmExtendFrameIntoClientArea(handle,ref margins)!=0)return;
-        if(HwndSource.FromHwnd(handle)?.CompositionTarget is {} target)target.BackgroundColor=Colors.Transparent;
-        window.SetResourceReference(Window.BackgroundProperty,"GlassPaper");
+        window.Background=NightBackdrop.SceneBrush;
     }
-    [StructLayout(LayoutKind.Sequential)]private struct Margins{public int Left,Right,Top,Bottom;}
     [DllImport("dwmapi.dll")]private static extern int DwmSetWindowAttribute(IntPtr window,int attribute,ref int value,int size);
-    [DllImport("dwmapi.dll")]private static extern int DwmExtendFrameIntoClientArea(IntPtr window,ref Margins margins);
 }
