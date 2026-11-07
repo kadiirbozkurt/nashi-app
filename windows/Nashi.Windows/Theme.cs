@@ -16,8 +16,9 @@ internal static class Theme
         // Bozkurt Çark is always the Ergenekon night look, like Bozkurt Pro: the appearance setting no longer changes it.
         Dark=true;
         // Ergenekon glass (Bozkurt Pro): translucent white panels over the night scene, turquoise for focus and
-        // selection. Paper stays opaque for popups and windows without the scene.
-        foreach(var (key,light,dark) in new[]{("Paper","#15131D","#15131D"),("Ink","#F5FFFFFF","#F5FFFFFF"),("Surface","#1CFFFFFF","#1CFFFFFF"),("Inset","#14FFFFFF","#14FFFFFF"),("Muted","#9EFFFFFF","#9EFFFFFF"),("Line","#29FFFFFF","#29FFFFFF"),("GlassRim","#52FFFFFF","#52FFFFFF"),("Sage","#5927C6B4","#5927C6B4"),("Sand","#33E2BC74","#33E2BC74"),("Gold","#27C6B4","#27C6B4")})
+        // selection. Paper stays opaque for popups and windows without the scene. Float is the dark glass of
+        // floating overlays (wheels, toasts): they sit on the desktop, where the white panels would vanish.
+        foreach(var (key,light,dark) in new[]{("Paper","#15131D","#15131D"),("Ink","#F5FFFFFF","#F5FFFFFF"),("Surface","#1CFFFFFF","#1CFFFFFF"),("Inset","#14FFFFFF","#14FFFFFF"),("Muted","#9EFFFFFF","#9EFFFFFF"),("Line","#29FFFFFF","#29FFFFFF"),("GlassRim","#52FFFFFF","#52FFFFFF"),("Sage","#5927C6B4","#5927C6B4"),("Sand","#33E2BC74","#33E2BC74"),("Gold","#27C6B4","#27C6B4"),("Float","#EB1A1726","#EB1A1726")})
             Application.Current.Resources[key]=new SolidColorBrush((Color)ColorConverter.ConvertFromString(Dark?dark:light));
         foreach(Window window in Application.Current.Windows)ApplyTitleBar(window);
     }

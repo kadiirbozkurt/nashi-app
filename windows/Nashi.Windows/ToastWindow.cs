@@ -15,7 +15,7 @@ public sealed class ToastWindow:Window
         Theme.Attach(this);bar.SetResourceReference(Control.ForegroundProperty,"Gold");bar.SetResourceReference(Control.BackgroundProperty,"Inset");this.cancel=cancel;L10n.Content(action);Owner=owner;WindowStyle=WindowStyle.None;ResizeMode=ResizeMode.NoResize;AllowsTransparency=true;Background=Brushes.Transparent;ShowInTaskbar=false;ShowActivated=false;Topmost=true;SizeToContent=SizeToContent.Height;Width=510;
         var content=new StackPanel();content.Children.Add(label);content.Children.Add(detail);content.Children.Add(bar);
         var grid=new Grid();grid.ColumnDefinitions.Add(new(){Width=new(1,GridUnitType.Star)});grid.ColumnDefinitions.Add(new(){Width=GridLength.Auto});grid.Children.Add(content);Grid.SetColumn(action,1);grid.Children.Add(action);action.Margin=new(18,0,0,0);action.VerticalAlignment=VerticalAlignment.Center;
-        Content=new Border{CornerRadius=new(22),Background=Theme.Brush("Surface"),BorderBrush=Theme.Brush("Line"),BorderThickness=new(1),Padding=new(24),Child=grid};
+        Content=new Border{CornerRadius=new(22),Background=Theme.Brush("Float"),BorderBrush=Theme.Brush("Line"),BorderThickness=new(1),Padding=new(24),Child=grid};
         Loaded+=(_,_)=>{Left=Math.Max(8,owner.Left+(owner.ActualWidth-Width)/2);Top=Math.Max(8,owner.Top+owner.ActualHeight-ActualHeight-30);};
         action.Click+=(_,_)=>{if(!complete){this.cancel?.Invoke();action.IsEnabled=false;}};Update(new(null,"A fresh file is on its way…"));
     }
